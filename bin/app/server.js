@@ -3,6 +3,7 @@ const wrapper = require('../helpers/utils/wrapper');
 const bodyParser = require('body-parser');
 const mongoConnectionPooling = require('../helpers/databases/mongodb/connection');
 const express = require('express');
+const authRoutes = require('../routers/authRoutes')
 
 function AppServer() {
     this.server = express();
@@ -13,11 +14,11 @@ function AppServer() {
     this.server.use(cors());
 
     this.server.get('/', (req, res) => {
-        wrapper.response(res, 'success', wrapper.data('T-Res API'), 'This services is running properly.');
+        wrapper.response(res, 'success', wrapper.data('Auth Gawaiku API'), 'This services is running properly.');
     });
 
     //Routing
-    // this.server.use('/{name}', 'router');
+    this.server.use('/auth', authRoutes);
 
     // exception handling
     this.server.use((error, req, res, next) => {

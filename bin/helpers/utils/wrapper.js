@@ -47,7 +47,7 @@ const response = (res, type, result, message = '', statusCode = 200, code = stat
         ok,
         data: d,
         message,
-        status: code,
+        code: code,
     };
     res.outputResponse = json;
     res.status(statusCode).send(json);

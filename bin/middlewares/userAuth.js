@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../config');
-const wrapper = require('../../helpers/utils/wrapper');
-const {UnauthorizedError} = require('../../helpers/error');
+const config = require('../config');
+const wrapper = require('../helpers/utils/wrapper');
+const {UnauthorizedError} = require('../helpers/error');
 
 module.exports = (req, res, next) => {
     try {
