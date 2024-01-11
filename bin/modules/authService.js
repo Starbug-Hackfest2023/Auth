@@ -71,7 +71,7 @@ module.exports.loginShop = async (username, email, password) => {
         throw new NotFoundError('Wrong Username / Password');
     }
     
-    const shopData = {...recordSet.data, password: '****'};
+    const shopData = {...recordSet.data, password: '***'};
     const result = {
         shopData,
         token : await generateToken(recordSet.data._id)
