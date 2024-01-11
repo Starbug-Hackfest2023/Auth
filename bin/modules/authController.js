@@ -26,7 +26,7 @@ module.exports.loginShop = async (req, res) => {
     authService.loginShop(username, email, password)
         .then(resp => {
             console.log('Shop has logged in');
-            wrapper.response(res, 'success', resp, 'Shop has logged in', 201);
+            wrapper.response(res, 'success', wrapper.data(resp), 'Shop has logged in', 201);
         })
         .catch(err => {
             console.log('Error while logging in', err);

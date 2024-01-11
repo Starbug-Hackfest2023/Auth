@@ -95,7 +95,7 @@ module.exports.registerUser = async (userData) => {
 }
 
 module.exports.registerShop = async (shopData) => {
-    mongoDb.setCollection('user');
+    mongoDb.setCollection('shop');
     const username = shopData.username;
     const recordSet = await mongoDb.findOne({ username });
     if (!validate.isEmpty(recordSet.data)) {
