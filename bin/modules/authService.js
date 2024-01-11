@@ -108,3 +108,31 @@ module.exports.registerShop = async (shopData) => {
     const maskedResult = {...result.data, password: '****'};
     return wrapper.data(maskedResult);
 }
+
+module.exports.viewUser = async (userId) => {
+    try {
+        mongoDb.setCollection('user');
+        const id = new ObjectId(userId);
+        const recordSet = await mongoDb.findOne({ _id: id });
+        if (recordSet.err) {
+            throw new NotFoundError('User not found')
+        }
+        return recordSet;
+    } catch (error) {
+        throw new BadRequestError('User not found')
+    }
+}
+
+module.exports.viewShop = async (shopId) => {
+    try {
+        mongoDb.setCollection('shop');
+        const id = new ObjectId(shopId);
+        const recordSet = await mongoDb.findOne({ _id: id });
+        if (recordSet.err) {
+            throw new NotFoundError('Shop not found')
+        }
+        return recordSet;
+    } catch (error) {
+        throw new BadRequestError('Shop not found')
+    }
+}

@@ -79,3 +79,31 @@ module.exports.registerShop = async (req, res) => {
             wrapper.response(res, 'fail', wrapper.error(err), `Error while creating Shop. Error: ${err}`, 400);
         });
 }
+
+module.exports.viewUser = async (req, res) => {
+    const userId = req.params.id;
+
+    authService.viewUser(userId)
+        .then(resp => {
+            console.log('User has found');
+            wrapper.response(res, 'success', wrapper.data(resp), 'User has found', 200);
+        })
+        .catch(err => {
+            console.log('User not found');
+            wrapper.response(res, 'fail', wrapper.error(err), `Error while finding user. Error: ${err}`, 404);
+        });
+}
+
+module.exports.viewShop = async (req, res) => {
+    const shopId = req.params.id;
+
+    authService.viewShop(shopId)
+        .then(resp => {
+            console.log('Shop has found');
+            wrapper.response(res, 'success', wrapper.data(resp), 'Shop has found', 200);
+        })
+        .catch(err => {
+            console.log('Shop not found');
+            wrapper.response(res, 'fail', wrapper.error(err), `Error while finding Shop. Error: ${err}`, 404);
+        });
+}
