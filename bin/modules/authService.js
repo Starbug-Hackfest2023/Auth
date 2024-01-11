@@ -14,99 +14,115 @@ const generateToken = async (id) => {
 };
 
 module.exports.loginUser = async (username, email, password) => {
-    mongoDb.setCollection('user');
-    let query = {};
-
-    if (username) {
-        query.username = username;
-    } else if (email) {
-        query.email = email;
-    } else {
-        query.username = null;
-        query.email = null;
-    }
-
-    if(password) {
-        query.password = md5(password);
-    } else {
-        throw new BadRequestError('Please fill the password');
-    }
+    try {
+        mongoDb.setCollection('user');
+        let query = {};
     
-    const recordSet = await mongoDb.findOne(query);
-    if (recordSet.err) {
-        // return wrapper.error(new NotFoundError('Can not find User'));
-        throw new NotFoundError('Wrong Username / Password');
-    }
+        if (username) {
+            query.username = username;
+        } else if (email) {
+            query.email = email;
+        } else {
+            query.username = null;
+            query.email = null;
+        }
     
-    const userData = {...recordSet.data, password: '****'};
-    const result = {
-        userData,
-        token : await generateToken(recordSet.data._id)
+        if(password) {
+            query.password = md5(password);
+        } else {
+            throw new BadRequestError('Please fill the password');
+        }
+        
+        const recordSet = await mongoDb.findOne(query);
+        if (recordSet.err) {
+            // return wrapper.error(new NotFoundError('Can not find User'));
+            throw new NotFoundError('Wrong Username / Password');
+        }
+        
+        const userData = {...recordSet.data, password: '****'};
+        const result = {
+            userData,
+            token : await generateToken(recordSet.data._id)
+        }
+        return result;
+    } catch (error) {
+        throw new BadRequestError(error.message);
     }
-    return result;
 }
 
 module.exports.loginShop = async (username, email, password) => {
-    mongoDb.setCollection('shop');
-    let query = {};
-
-    if (username) {
-        query.username = username;
-    } else if (email) {
-        query.email = email;
-    } else {
-        query.username = null;
-        query.email = null;
-    }
-
-    if(password) {
-        query.password = md5(password);
-    } else {
-        throw new BadRequestError('Please fill the password');
-    }
+    try {
+        mongoDb.setCollection('shop');
+        let query = {};
     
-    const recordSet = await mongoDb.findOne(query);
-    if (recordSet.err) {
-        // return wrapper.error(new NotFoundError('Can not find User'));
-        throw new NotFoundError('Wrong Username / Password');
-    }
+        if (username) {
+            query.username = username;
+        } else if (email) {
+            query.email = email;
+        } else {
+            query.username = null;
+            query.email = null;
+        }
     
-    const shopData = {...recordSet.data, password: '***'};
-    const result = {
-        shopData,
-        token : await generateToken(recordSet.data._id)
+        if(password) {
+            query.password = md5(password);
+        } else {
+            throw new BadRequestError('Please fill the password');
+        }
+        
+        const recordSet = await mongoDb.findOne(query);
+        if (recordSet.err) {
+            // return wrapper.error(new NotFoundError('Can not find User'));
+            throw new NotFoundError('Wrong Username / Password');
+        }
+        
+        const shopData = {...recordSet.data, password: '***'};
+        const result = {
+            shopData,
+            token : await generateToken(recordSet.data._id)
+        }
+        return result;
+    } catch (error) {
+        throw new BadRequestError(error.message);
     }
-    return result;
 }
 
 module.exports.registerUser = async (userData) => {
-    mongoDb.setCollection('user');
-    const username = userData.username;
-    const recordSet = await mongoDb.findOne({ username });
-    if (!validate.isEmpty(recordSet.data)) {
-        console.log('Username already exist');
-        throw new ConflictError('Username already exist');
+    try {
+        mongoDb.setCollection('user');
+        const username = userData.username;
+        const recordSet = await mongoDb.findOne({ username });
+        if (!validate.isEmpty(recordSet.data)) {
+            console.log('Username already exist');
+            throw new ConflictError('Username already exist');
+        }
+
+        const result = await mongoDb.insertOne(userData);
+
+        const maskedResult = {...result.data, password: '****'};
+        return wrapper.data(maskedResult);
+    } catch (error) {
+        throw new BadRequestError(error.message);
     }
-
-    const result = await mongoDb.insertOne(userData);
-
-    const maskedResult = {...result.data, password: '****'};
-    return wrapper.data(maskedResult);
 }
 
 module.exports.registerShop = async (shopData) => {
-    mongoDb.setCollection('shop');
-    const username = shopData.username;
-    const recordSet = await mongoDb.findOne({ username });
-    if (!validate.isEmpty(recordSet.data)) {
-        console.log('Username already exist');
-        throw new ConflictError('Username already exist');
+    try {
+        mongoDb.setCollection('shop');
+        const username = shopData.username;
+        const recordSet = await mongoDb.findOne({ username });
+        if (!validate.isEmpty(recordSet.data)) {
+            console.log('Username already exist');
+            throw new ConflictError('Username already exist');
+        }
+
+        const result = await mongoDb.insertOne(shopData);
+
+        const maskedResult = {...result.data, password: '****'};
+        return wrapper.data(maskedResult);
+    } catch (error) {
+        throw new BadRequestError(error.message);
     }
-
-    const result = await mongoDb.insertOne(shopData);
-
-    const maskedResult = {...result.data, password: '****'};
-    return wrapper.data(maskedResult);
 }
 
 module.exports.viewUser = async (userId) => {
