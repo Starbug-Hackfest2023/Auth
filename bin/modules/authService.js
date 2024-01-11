@@ -38,7 +38,7 @@ module.exports.loginUser = async (username, email, password) => {
         throw new NotFoundError('Wrong Username / Password');
     }
     
-    const userData = {...recordSet.data, password: '***'};
+    const userData = {...recordSet.data, password: '****'};
     const result = {
         userData,
         token : await generateToken(recordSet.data._id)
@@ -71,7 +71,7 @@ module.exports.loginShop = async (username, email, password) => {
         throw new NotFoundError('Wrong Username / Password');
     }
     
-    const shopData = {...recordSet.data, password: '***'};
+    const shopData = {...recordSet.data, password: '****'};
     const result = {
         shopData,
         token : await generateToken(recordSet.data._id)
@@ -90,7 +90,7 @@ module.exports.registerUser = async (userData) => {
 
     const result = await mongoDb.insertOne(userData);
 
-    const maskedResult = {...result.data, password: '***'};
+    const maskedResult = {...result.data, password: '****'};
     return wrapper.data(maskedResult);
 }
 
@@ -105,6 +105,6 @@ module.exports.registerShop = async (shopData) => {
 
     const result = await mongoDb.insertOne(shopData);
 
-    const maskedResult = {...result.data, password: '***'};
+    const maskedResult = {...result.data, password: '****'};
     return wrapper.data(maskedResult);
 }
