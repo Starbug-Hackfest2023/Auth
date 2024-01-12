@@ -133,7 +133,9 @@ module.exports.viewUser = async (userId) => {
         if (recordSet.err) {
             throw new NotFoundError('User not found')
         }
-        return recordSet;
+
+        const maskedResult = {...recordSet.data, password: '****'};
+        return maskedResult;
     } catch (error) {
         throw new BadRequestError('User not found')
     }
@@ -147,7 +149,9 @@ module.exports.viewShop = async (shopId) => {
         if (recordSet.err) {
             throw new NotFoundError('Shop not found')
         }
-        return recordSet;
+
+        const maskedResult = {...recordSet.data, password: '****'};
+        return maskedResult;
     } catch (error) {
         throw new BadRequestError('Shop not found')
     }
@@ -168,7 +172,8 @@ module.exports.updateUser = async (userId, userData) => {
             $set: userData
         });
 
-        return result;
+        const maskedResult = {...result.data, password: '****'};
+        return maskedResult;
     } catch (error) {
         throw new BadRequestError(error.message);
     }
@@ -189,7 +194,8 @@ module.exports.updateShop = async (shopId, shopData) => {
             $set: shopData
         });
 
-        return result;
+        const maskedResult = {...result.data, password: '****'};
+        return maskedResult;
     } catch (error) {
         throw new BadRequestError(error.message);
     }
