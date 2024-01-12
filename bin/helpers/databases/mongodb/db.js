@@ -123,11 +123,11 @@ class DB {
             // const cacheConnection = result.data.db;
             const connection = this.client.db(dbName);
             const db = connection.collection(this.collectionName);
-            const data = await db.update(parameter, updateQuery, { upsert: true });
-            if (data.result.nModified >= 0) {
-                const { result: { nModified } } = data;
+            const data = await db.updateOne(parameter, updateQuery, { upsert: true });
+            if (data.modifiedCount >= 0) {
+                const { modifiedCount } = data;
                 const recordset = await this.findOne(parameter);
-                if (nModified === 0) {
+                if (modifiedCount === 0) {
                     return wrapper.data(recordset.data);
                 }
                 return wrapper.data(recordset.data);

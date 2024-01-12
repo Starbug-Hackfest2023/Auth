@@ -12,7 +12,7 @@ router.post('/registerUser', authController.registerUser);
 router.post('/registerShop', authController.registerShop);
 router.get('/user/:id', userAuth, authController.viewUser);
 router.get('/shop/:id', userAuth, authController.viewShop);
-// router.put('/user', userAuth, authController.updateUser);
-// router.put('/shop', userAuth, authController.updateShop);
+router.put('/user/:id', userAuth, authController.updateUser);
+router.put('/shop/:id', userAuth, authController.updateShop);
 
 module.exports = router; 

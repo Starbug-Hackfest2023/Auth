@@ -152,3 +152,45 @@ module.exports.viewShop = async (shopId) => {
         throw new BadRequestError('Shop not found')
     }
 }
+
+module.exports.updateUser = async (userId, userData) => {
+    try {
+        mongoDb.setCollection('user');
+        const _id = new ObjectId(userId);
+
+        const data = await mongoDb.findOne({_id});
+
+        if (validate.isEmpty(data.data)) {
+            throw new NotFoundError('User not found');
+        }
+
+        const result = await mongoDb.upsertOne({_id}, {
+            $set: userData
+        });
+
+        return result;
+    } catch (error) {
+        throw new BadRequestError(error.message);
+    }
+}
+
+module.exports.updateShop = async (shopId, shopData) => {
+    try {
+        mongoDb.setCollection('shop');
+        const _id = new ObjectId(shopId);
+
+        const data = await mongoDb.findOne({_id});
+
+        if (validate.isEmpty(data.data)) {
+            throw new NotFoundError('Shop not found');
+        }
+
+        const result = await mongoDb.upsertOne({_id}, {
+            $set: shopData
+        });
+
+        return result;
+    } catch (error) {
+        throw new BadRequestError(error.message);
+    }
+}

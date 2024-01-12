@@ -86,7 +86,7 @@ module.exports.viewUser = async (req, res) => {
     authService.viewUser(userId)
         .then(resp => {
             console.log('User has found');
-            wrapper.response(res, 'success', wrapper.data(resp), 'User has found', 200);
+            wrapper.response(res, 'success', resp, 'User has found', 200);
         })
         .catch(err => {
             console.log('User not found');
@@ -105,5 +105,35 @@ module.exports.viewShop = async (req, res) => {
         .catch(err => {
             console.log('Shop not found');
             wrapper.response(res, 'fail', wrapper.error(err), `Error while finding Shop. Error: ${err}`, 404);
+        });
+}
+
+module.exports.updateUser = async (req, res) => {
+    const userId = req.params.id;
+    const userData = req.body;
+
+    authService.updateUser(userId, userData)
+        .then(resp => {
+            console.log('User has been updated');
+            wrapper.response(res, 'success', wrapper.data(resp), 'User has been updated', 200);
+        })
+        .catch(err => {
+            console.log('User failed to update');
+            wrapper.response(res, 'fail', wrapper.error(err), `Error while updating user. Error ${err}`, 400);
+        });
+}
+
+module.exports.updateShop = async (req, res) => {
+    const shopId = req.params.id;
+    const shopData = req.body;
+
+    authService.updateShop(shopId, shopData)
+        .then(resp => {
+            console.log('Shop has been updated');
+            wrapper.response(res, 'success', wrapper.data(resp), 'Shop has been updated', 200);
+        })
+        .catch(err => {
+            console.log('Shop failed to update');
+            wrapper.response(res, 'fail', wrapper.error(err), `Error while updating Shop. Error ${err}`, 400);
         });
 }
