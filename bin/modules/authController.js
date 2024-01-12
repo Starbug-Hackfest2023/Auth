@@ -111,6 +111,9 @@ module.exports.viewShop = async (req, res) => {
 module.exports.updateUser = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
+    if (userData.birthDate) {
+        userData.birthDate = new Date(req.body.birthDate)
+    }
 
     authService.updateUser(userId, userData)
         .then(resp => {
